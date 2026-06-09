@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persib Bandung - Hattrick Juara & 5 Gelar Liga</title>
+    <style>
+         :root {
+            --blue: #005BAC;
+            --white: #FFFFFF;
+            --navy: #0A1931;
+            --gold: #FFD700;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: var(--navy);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--white);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        #login-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(rgba(10, 25, 49, 0.8), rgba(0, 91, 172, 0.7)), url('https://images.unsplash.com/photo-1518605368461-1e1252220a4c?auto=format&fit=crop&q=80') center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .login-card {
+            background: rgba(10, 25, 49, 0.4);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .login-card h1 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .login-card p {
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            color: #ddd;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: var(--gold);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: var(--blue);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        
+        .btn-login:hover {
+            background: var(--gold);
+            color: var(--navy);
+            transform: translateY(-2px);
+        }
+        
+        #login-error {
+            color: #ff4757;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        #main-website {
+            display: none;
+        }
+        
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 25, 49, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links li a {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        
+        .nav-links li a:hover {
+            color: var(--gold);
+        }
+        
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: var(--gold);
+            color: var(--navy);
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gold);
+        }
+        
+        #beranda {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(10, 25, 49, 0.7), rgba(10, 25, 49, 0.9)), url('https://i.pinimg.com/1200x/33/e9/b5/33e9b569ee721a0285f8a919de6c2a28.jpg') center/cover;
+            background-attachment: fixed;
+            padding: 0 20px;
+        }
+        
+        .hero-content h1 {
+            font-size: 5rem;
+            color: var(--gold);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 5px;
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .hero-buttons a {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 0 10px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--gold);
+            color: var(--navy);
+        }
+        
+        .btn-primary:hover {
+            background: var(--white);
+            transform: scale(1.05);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--navy);
+            transform: scale(1.05);
+        }
+        
+        section {
+            padding: 5rem 5%;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+        }
+        
+        #prestasi .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .prestasi-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: transform 0.4s, box-shadow 0.4s;
+            cursor: default;
+        }
+        
+        .prestasi-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 91, 172, 0.4);
+            border-color: var(--gold);
+        }
+        
+        .prestasi-card h3 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--blue);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--gold);
+            border: 4px solid var(--navy);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .right::after {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 91, 172, 0.2), rgba(10, 25, 49, 0.8));
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .timeline-content h3 {
+            color: var(--gold);
+        }
+        
+        #statistik {
+            background: var(--blue);
+            text-align: center;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: var(--navy);
+            padding: 40px 20px;
+            border-radius: 15px;
+            animation: pulseGlow 3s infinite;
+        }
+        
+        .stat-card h2 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 10px;
+            position: relative;
+            aspect-ratio: 4/3;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, var(--navy));
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        #bobotoh {
+            background: linear-gradient(rgba(10, 25, 49, 0.8), rgba(10, 25, 49, 0.8)), url('https://i.pinimg.com/1200x/73/66/1e/73661edee7090bb4e550e6ff47c58d25.jpg') center/cover;
+            text-align: center;
+            background-attachment: fixed;
+        }
+        
+        .quote {
+            font-size: 2rem;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+            color: var(--white);
+        }
+        
+        .quote span {
+            color: var(--gold);
+        }
+        
+        #tentang {
+            background: rgba(255, 255, 255, 0.02);
+            text-align: center;
+            line-height: 1.8;
+        }
+        
+        .tentang-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        footer {
+            background: #050d1a;
+            padding: 3rem 5% 1rem;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        footer p {
+            color: #888;
+            margin-top: 2rem;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 25, 49, 0.95);
+                padding: 20px 0;
+                text-align: center;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .timeline-container::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item::after {
+                left: 21px;
+            }
+            .right {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="login-page">
+        <div class="login-card fade-in">
+            <h1>Selamat Datang Bobotoh</h1>
+            <p>Masuk untuk menyaksikan perjalanan kejayaan Persib Bandung</p>
+
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username (demo: bobotoh)" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password (demo: persibjuara)">
+            </div>
+            <button class="btn-login" onclick="handleLogin()">MASUK</button>
+            <p id="login-error">Username atau password salah!</p>
+        </div>
+    </div>
+
+    <div id="main-website">
+
+        <!-- Navbar -->
+        <header>
+            <div class="logo">PERSIB</div>
+            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#prestasi">Prestasi</a></li>
+                <li><a href="#timeline">Timeline</a></li>
+                <li><a href="#galeri">Galeri</a></li>
+                <li><a href="#statistik">Statistik</a></li>
+                <li><a href="#bobotoh">Bobotoh</a></li>
+                <li><a href="#tentang">Tentang</a></li>
+                <li><button class="btn-logout" onclick="handleLogout()">Logout</button></li>
+            </ul>
+        </header>
+
+        <section id="beranda">
+            <div class="hero-content fade-in">
+                <h1>PERSIB BANDUNG</h1>
+                <p>Hattrick Juara Liga 1 dan 5 Kali Juara Liga Indonesia</p>
+                <div class="hero-buttons">
+                    <a href="#prestasi" class="btn-primary">Jelajahi Prestasi</a>
+                    <a href="#galeri" class="btn-secondary">Galeri Juara</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="prestasi">
+            <h2 class="section-title">Puncak Kejayaan</h2>
+            <div class="grid-container">
+                <div class="prestasi-card fade-in">
+                    <h3>5 Kali Juara Liga</h3>
+                    <p>Mencatatkan sejarah gemilang dengan meraih supremasi tertinggi sepak bola Indonesia sebanyak lima kali.</p>
+                </div>
+                <div class="prestasi-card fade-in">
+                    <h3>Hattrick Liga 1</h3>
+                    <p>Dominasi absolut di era modern dengan menjuarai kasta tertinggi secara beruntun selama tiga musim penuh.</p>
+                </div>
+                <div class="prestasi-card fade-in">
+                    <h3>Kebanggaan Jawa Barat</h3>
+                    <p>Bukan sekadar klub, Persib adalah identitas dan denyut nadi perjuangan masyarakat Jawa Barat.</p>
+                </div>
+                <div class="prestasi-card fade-in">
+                    <h3>Bobotoh Terbesar</h3>
+                    <p>Didukung oleh basis suporter fanatik terbesar di Asia yang selalu menemani di mana pun berlaga.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline">
+            <h2 class="section-title">Timeline Gelar Juara</h2>
+            <div class="timeline-container">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Liga Indonesia 1994/95</h3>
+                        <p>Juara edisi pertama Liga Indonesia.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>ISL 2014</h3>
+                        <p>Mengakhiri puasa gelar panjang di Palembang.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Liga 1 2023/24</h3>
+                        <p>Awal mula dominasi baru di era Liga 1.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Liga 1 2024/25</h3>
+                        <p>Mempertahankan mahkota juara (Back-to-Back).</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Liga 1 2025/26</h3>
+                        <p>Menyempurnakan sejarah dengan Hattrick Juara.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="statistik">
+            <h2 class="section-title" style="color: white;">Angka Kebanggaan</h2>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <h2>5</h2>
+                    <p>Gelar Liga</p>
+                </div>
+                <div class="stat-card">
+                    <h2>3</h2>
+                    <p>Hattrick Juara</p>
+                </div>
+                <div class="stat-card">
+                    <h2>90+</h2>
+                    <p>Tahun Sejarah</p>
+                </div>
+                <div class="stat-card">
+                    <h2>Jutaan</h2>
+                    <p>Bobotoh</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="galeri">
+            <h2 class="section-title">Galeri Juara</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://i.pinimg.com/736x/d4/10/05/d41005e1035aacbff259b8982a85fa93.jpg" alt="Trofi">
+                    <div class="gallery-overlay">
+                        <h4>Trofi Liga</h4>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.pinimg.com/1200x/48/18/da/4818da4b3c02b6db8df828dac9144c40.jpg" alt="Pemain">
+                    <div class="gallery-overlay">
+                        <h4>Squad terbaik persib</h4>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.pinimg.com/1200x/dc/40/27/dc40273ceb1736e023b99c29797565f3.jpg" alt="Stadion">
+                    <div class="gallery-overlay">
+                        <h4>Stadion GBLA</h4>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.pinimg.com/1200x/f9/0e/e9/f90ee919545c1be91d67836e1bb82903.jpg" alt="Bobotoh">
+                    <div class="gallery-overlay">
+                        <h4>Gemuruh Bobotoh</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bobotoh">
+            <div class="quote fade-in">
+                "Persib tidak hanya memiliki pemain hebat, tetapi juga <span>jutaan Bobotoh</span> yang selalu setia mendukung dalam setiap pertandingan."
+            </div>
+        </section>
+
+        <section id="tentang">
+            <div class="tentang-content fade-in">
+                <h2 class="section-title">Tentang Persib</h2>
+                <p>Berdiri sejak tahun 1933, Persib Bandung dengan julukan "Maung Bandung" adalah salah satu klub paling bersejarah di Indonesia. Memiliki tradisi pemenang, Persib terus mencatatkan sejarah emas di kancah nasional, puncaknya dengan meraih
+                    5 gelar liga serta mencatatkan rekor Hattrick Juara di kompetisi kasta tertinggi Liga 1.</p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-logo">PERSIB BANDUNG</div>
+            <p>Menang merayakan Kalah menjelaskan</p>
+            <p>&copy; 2026 Persib Juara Hattrick. By Tian.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- Elemen DOM ---
+        const loginPage = document.getElementById('login-page');
+        const mainWebsite = document.getElementById('main-website');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const errorMsg = document.getElementById('login-error');
+        const navLinks = document.getElementById('nav-links');
+
+        // --- Cek Status Login saat halaman dimuat ---
+        window.onload = function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                showMainWebsite();
+            }
+        };
+
+        // --- Fungsi Login ---
+        function handleLogin() {
+            const user = usernameInput.value;
+            const pass = passwordInput.value;
+
+            if (user === 'bobotoh' && pass === 'persibjuara') {
+                // Berhasil login
+                localStorage.setItem('isLoggedIn', 'true');
+                errorMsg.style.display = 'none';
+                showMainWebsite();
+            } else {
+                // Gagal login
+                errorMsg.style.display = 'block';
+                usernameInput.value = '';
+                passwordInput.value = '';
+            }
+        }
+
+        // --- Fungsi Logout ---
+        function handleLogout() {
+            localStorage.removeItem('isLoggedIn');
+            mainWebsite.style.display = 'none';
+            loginPage.style.display = 'flex';
+            usernameInput.value = '';
+            passwordInput.value = '';
+        }
+
+        // --- Transisi Tampilan ---
+        function showMainWebsite() {
+            loginPage.style.display = 'none';
+            mainWebsite.style.display = 'block';
+            window.scrollTo(0, 0);
+
+            // Re-trigger animasi pada hero section
+            const heroText = document.querySelector('.hero-content');
+            heroText.style.animation = 'none';
+            heroText.offsetHeight; /* trigger reflow */
+            heroText.style.animation = 'fadeIn 1s ease-out forwards';
+        }
+
+        // --- Toggle Mobile Menu ---
+        function toggleMenu() {
+            navLinks.classList.toggle('active');
+        }
+
+        // Menutup menu mobile saat link diklik
+        document.querySelectorAll('.nav-links li a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Event Listener untuk Enter Key di Form Login
+        passwordInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                handleLogin();
+            }
+        });
+    </script>
+</body>
+
+</html>
